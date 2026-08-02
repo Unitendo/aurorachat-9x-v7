@@ -1,0 +1,85 @@
+!define BLANK ""
+d:\aurorachat-v7\credits.obj : d:\aurorachat-v7\src\credits.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\credits.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=&
+nt -mf
+
+d:\aurorachat-v7\ipsetup.obj : d:\aurorachat-v7\src\ipsetup.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\ipsetup.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=&
+nt -mf
+
+d:\aurorachat-v7\login.obj : d:\aurorachat-v7\src\login.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\login.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=nt&
+ -mf
+
+d:\aurorachat-v7\main.obj : d:\aurorachat-v7\src\main.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\main.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=nt &
+-mf
+
+d:\aurorachat-v7\rooms.obj : d:\aurorachat-v7\src\rooms.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\rooms.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=nt&
+ -mf
+
+d:\aurorachat-v7\rules.obj : d:\aurorachat-v7\src\rules.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\rules.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=nt&
+ -mf
+
+d:\aurorachat-v7\sockbuf.obj : d:\aurorachat-v7\src\sockbuf.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\sockbuf.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=&
+nt -mf
+
+d:\aurorachat-v7\sockets.obj : d:\aurorachat-v7\src\sockets.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\sockets.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=&
+nt -mf
+
+d:\aurorachat-v7\v7.obj : d:\aurorachat-v7\src\v7.c .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wcc386 src\v7.c -i=E:\h;E:\h\nt;include -w4 -e25 -zq -od -d2 -5r -bt=nt -m&
+f
+
+d:\aurorachat-v7\auc9x.res : d:\aurorachat-v7\res\auc9x.rc .AUTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ *wrc res\auc9x.rc -bt=nt -dWIN32 -d_WIN32 -d__NT__ -i=$[:;E:\h;E:\h\nt -q -&
+ad -r -fo=auc9x.res
+
+d:\aurorachat-v7\auc9x.exe : d:\aurorachat-v7\credits.obj d:\aurorachat-v7\i&
+psetup.obj d:\aurorachat-v7\login.obj d:\aurorachat-v7\main.obj d:\auroracha&
+t-v7\rooms.obj d:\aurorachat-v7\rules.obj d:\aurorachat-v7\sockbuf.obj d:\au&
+rorachat-v7\sockets.obj d:\aurorachat-v7\v7.obj d:\aurorachat-v7\include\com&
+mon.h d:\aurorachat-v7\include\credits.h d:\aurorachat-v7\include\ipsetup.h &
+d:\aurorachat-v7\include\login.h d:\aurorachat-v7\include\rooms.h d:\aurorac&
+hat-v7\include\rules.h d:\aurorachat-v7\include\sockbuf.h d:\aurorachat-v7\i&
+nclude\sockets.h d:\aurorachat-v7\include\v7.h d:\aurorachat-v7\auc9x.res .A&
+UTODEPEND
+ @d:
+ cd d:\aurorachat-v7
+ @%write auc9x.lk1 FIL credits.obj,ipsetup.obj,login.obj,main.obj,rooms.obj,&
+rules.obj,sockbuf.obj,sockets.obj,v7.obj
+ @%append auc9x.lk1 
+!ifneq BLANK ""
+ *wlib -q -n -b auc9x.imp 
+ @%append auc9x.lk1 LIBR auc9x.imp
+!endif
+!ifneq BLANK "auc9x.res"
+ @%append auc9x.lk1 op resource=auc9x.res
+!endif
+ *wlink name auc9x d all op inc SYS nt_win op m op maxe=25 op q op symf @auc&
+9x.lk1
+

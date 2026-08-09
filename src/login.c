@@ -11,7 +11,7 @@ int Login_socket;
 SOCKBUF_T Login_sockbuf;
 char Login_servername[512] = {0};
 const char LOGIN_WINCLASS[] = "AUC LOGIN";
-const char Login_versionstr[] = "9x v0.7.0";
+const char Login_versionstr[] = "9x v0.7.0-1";
 
 char Login_targetip[64] = AUC_DEFAULTIP;
 short Login_tcpport = AUC_DEFAULTTCPPORT;

@@ -1,16 +1,17 @@
-<h1 align="center">Welcome to the aurorachat repository!</h1>
-This is the Windows 9x client for Aurorachat.<br>
-For more clients and stuff, see the <a href="https://github.com/Unitendo/aurorachat">main repo</a>.
+# AuroraChat 9x #
+
+This is the Windows 9x client for Aurorachat.  
+For more clients and stuff, see the [main repo](https://github.com/Unitendo/aurorachat).  
 The license, code of conduct, and security/contributing guidelines in the main repo also apply here.
 
-<br>This repository is <b>open</b> for contributions! If you'd like to, you may open a PR or an issue, contributing helps us as we develop aurorachat!
+This repository is **open** for contributions! If you'd like to, you may open a PR or an issue, contributing helps us as we develop aurorachat!
 
-<h1 align="center">How to build aurorachat</h1>
+## Building ##
 
-Install Open Watcom, and then run the following commands:
-```sh
-git clone https://github.com/Unitendo/aurorachat-9x-v7
-cd aurorachat-9x-v7
-wmake -f aurorachat.mk
-```
-After the build completes successfully, the `.exe` file should be called auc9x.exe
+Building aurorachat 9x isn't recommended, but can be done.
+
+First, make sure you have [Watcom C/C++ 11](https://winworldpc.com/product/watcom-c-c/110b) installed.
+
+Using the IDE, open "aurorachat.wpj", then click Actions -> Make all (or press F5).
+
+If the build succedded, you should find "auc9x.exe" in the project directory. To confirm, run the file.

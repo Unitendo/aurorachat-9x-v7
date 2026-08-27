@@ -12,5 +12,6 @@ extern void v7_loginOrRegister(int s, const char *cmd, const char *login, const 
 extern int v7_loginOKCheck(SOCKBUF_T *sb, char *err, char *banmsg, size_t err_n, size_t ban_n);
 extern void v7_joinRoom(int s, const char *room);
 extern void v7_sendMsg(int s, const char *msg);
+extern void v7_sendMOTDRequest(int s);
 
 #endif

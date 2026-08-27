@@ -190,3 +190,9 @@ void v7_sendMsg(int s, const char *msg) {
     _snprintf(buffer, sizeof(buffer) - 1, "msg|%s|\n", msg_encoded);
     socket_send(s, buffer, strlen(buffer));
 }
+
+void v7_sendMOTDRequest(int s) {
+        const char *buffer = "motd|\n";
+        socket_send(s, buffer, strlen(buffer));
+}
+

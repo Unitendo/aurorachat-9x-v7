@@ -21,15 +21,15 @@ WNDPROC Rooms_OldMsgEditBoxProc;
 
 long PASCAL Rooms_MsgEditBoxProc(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
         switch(msg) {
-                case WM_KEYDOWN:
+                case WM_CHAR:
                         switch(wparam) {
-                                char message[4096];
+                                char message[4096] = {0};
                             
                                 case VK_RETURN:
                                         GetWindowText(hwnd, message, 4095);
                                         SetWindowText(hwnd, "");
                                         v7_sendMsg(Login_socket, message);
-                                break;
+                                return 0;
                         }
             
                 default:
@@ -65,7 +65,7 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
 
                         CreateWindow(
                                 "Edit", DEFAULTROOMNAME, WS_CHILD | WS_VISIBLE | WS_BORDER,
-                                8, 0, clrect.right - (128 + 64 + 8), 24,
+                                8, 0, clrect.right - (256 + 64 + 8), 24,
                                 hwnd, (HMENU) 2, NULL, NULL
                         );
 
@@ -73,6 +73,12 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                                 "Button", "Join Room", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
                                 clrect.right - (128 + 64), 0, 128, 24,
                                 hwnd, (HMENU) 3, NULL, NULL
+                        );
+
+                        CreateWindow(
+                                "Button", "View MOTD", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
+                                clrect.right - (256 + 64), 0, 128, 24,
+                                hwnd, (HMENU) 4, NULL, NULL
                         );
 
                         CreateWindow(
@@ -110,8 +116,12 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                                                         v7_joinRoom(Login_socket, Rooms_roomname);
                                                 } break;
 
+                                                case 4: {
+                                                        v7_sendMOTDRequest(Login_socket);
+                                                } break;
+
                                                 case 6: {
-                                                        char message[4096];
+                                                        char message[4096] = {0};
                                                         GetDlgItemText(hwnd, 5, message, 4095);
                                                         SetDlgItemText(hwnd, 5, "");
                                                         v7_sendMsg(Login_socket, message);
@@ -129,6 +139,7 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                         switch(wparam) {
                                 case 1337: {
                                         char buffer[4096] = {0};
+                                        char motd[4096] = {0};
                                         HWND edit;
                                         DWORD startsel, endsel;
 
@@ -146,6 +157,13 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                                                 token = strtok(buffer, "|");
 
                                                 if(token == NULL) continue;
+
+                                                if(!strncmp(token, "motd", sizeof(buffer))) {
+                                                        token = strtok(NULL, "|");
+                                                        if(token == NULL) continue;
+                                                        v7_decode(motd, token, sizeof(motd));
+                                                }
+                                                
                                                 if(strncmp(token, "msg", sizeof(buffer))) 
                                                         continue;
 
@@ -182,6 +200,9 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                                                 SendMessage(edit, EM_SCROLLCARET, 0, 0);
                                                 Rooms_lastmsgbuflen = strlen(Rooms_messagebuffer);
                                         }
+
+                                        if(*motd)
+                                                MessageBox(NULL, motd, "Message of the day", MB_ICONINFORMATION);
                                 } break;
                         }
                 } break;

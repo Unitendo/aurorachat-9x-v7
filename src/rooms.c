@@ -4,7 +4,9 @@
 #include "login.h"
 #include "rules.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <winsock.h>
 
 #define DEFAULTROOMNAME "general"
@@ -147,6 +149,7 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                                         while( (recvd = sockbuf_getline_nonblock(&Login_sockbuf, buffer, sizeof(buffer) - 1)) ) {
                                                 char *token;
                                                 char author[64] = {0};
+                                                char time[64] = {0};
                                                 char content[1024] = {0};
                                                 char msgbuf[2048] = {0};
                                                 size_t count, left, i;
@@ -173,7 +176,17 @@ long PASCAL Rooms_WP(HWND hwnd, unsigned msg, UINT wparam, LONG lparam) {
                                                 token = strtok(NULL, "|");
                                                 if(token == NULL) continue;
                                                 v7_decode(content, token, sizeof(content));
-                                                _snprintf(msgbuf, sizeof(msgbuf) - 1, "<%s> %s\r\n", author, content);
+                                                token = strtok(NULL, "|");
+                                                if(token != NULL) {
+                                                        time_t timestamp;
+                                                        struct tm *ts;
+                                                        timestamp = strtol(token, NULL, 10);
+                                                        ts = localtime(&timestamp);
+                                                        if(ts != NULL) {
+                                                                _snprintf(time, 63, "[%02d:%02d] ", ts->tm_hour, ts->tm_min);
+                                                        }
+                                                }
+                                                _snprintf(msgbuf, sizeof(msgbuf) - 1, "%s<%s> %s\r\n", time, author, content);
                                                 count = strlen(Rooms_messagebuffer);
                                                 left = ROOMS_ROOMBUFSIZE - count;
                                                 for(i=0;i<left && msgbuf[i];i++) {
